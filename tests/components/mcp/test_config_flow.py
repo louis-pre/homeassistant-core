@@ -117,6 +117,10 @@ async def test_form(
     assert result["result"]
     assert result["result"].unique_id is None
 
+    # Verify initialize is called exactly once (not twice) to avoid
+    # double-initialization which causes a 400 Bad Request from the server.
+    mock_mcp_client.return_value.initialize.assert_called_once()
+
     assert len(mock_setup_entry.mock_calls) == 1
 
 
